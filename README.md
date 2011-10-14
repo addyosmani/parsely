@@ -2,7 +2,7 @@ Parsley is a JavaScript URL-parser for breaking down both simple and complex URL
 
 usage:
 
-parsely( url ); //parsely('http://google.com');
+<pre>var parts = parsely( url ); //parsely('http://google.com');</pre>
 
 Supported URL patterns include:
 
