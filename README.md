@@ -6,6 +6,7 @@ parsely( url ); //parsely('http://google.com');
 
 Supported URL patterns include:
 
+<pre>
 "http:",
 "https://",
 "http://host",
@@ -68,6 +69,7 @@ Supported URL patterns include:
 "user@host.com?query",
 "user@host.com#anchor",
 "user:pass@host.com:81/direc.tory/file.ext?query=1&test=2#anchor"
+</pre>
 
 Due to the need for testing to factor in more than just the correct number of objects output, tests might take another few days to wrap up but they are coming. 
 	
