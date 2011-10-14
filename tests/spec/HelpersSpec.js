@@ -1,5 +1,5 @@
 describe("Helpers", function(){
-var testUris = [
+var testUrls = [
 		["http:"],
 		["https://"],
 		["http://host"],
@@ -64,8 +64,10 @@ var testUris = [
 		["user:pass@host.com:81/direc.tory/file.ext?query=1&test=2#anchor"]
 	];
 	
-	it("", function(){
-		expect(testArray.unique()).toEqual([]);
+	it("expect http: to be successfully pasred", function(){
+		var test = parsely(testUrls[0]);
+		expect(test.source).toEqual('http:');
+		expect(test.protocol).toEqual('http');
 	});
 	
 });
