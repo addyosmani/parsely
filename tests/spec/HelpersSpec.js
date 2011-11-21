@@ -105,86 +105,7 @@ var testUrls = [  /*test set 1*/
 		['http://223.255.255.254']
 	*/
 
-	var q =  testUrls.length;
-	//for(var i=0; i<q; i++){
-		console.log(parsely(testUrls[18]));
-	//}
 
-
-
-types = function(input){
-        return Object.prototype.toString.call(input).match(/^\[object\s(.*)\]$/)[1];
-}
-
-Object.size = function(obj) {
-    var size = 0, key;
-    for (key in obj) {
-        if (obj.hasOwnProperty(key)) size++;
-    }
-    return size;
-};
-
-//can we automate writing the tests for this?
-
-var n = testUrls.length, i =0, tests = "", ob = parsely(testUrls[0]);
-for(i=0;i<n;i++){
-	tests+= '\n\nit("expect ' + testUrls[i] + ' to be successfully parsed", function(){';
-	tests += 
-	'\n\nvar test' + i + ' = parsely(testUrls[' + i + ']); \n';
-
-	//
-	ob = parsely(testUrls[i]);
-	for( var q in ob){
-
-		/*
-		if(!(typeof ob[q] == 'object') && !(typeof ob[q] == 'array')){ //works
-			//need to special case the objects and arrays for further testing.
-		tests+= 'expect(test' + i + '.' + q + ').toEqual("' + ob[q] + '");\n';
-		}	*/
-
-		//
-
-		if(types(ob[q]) === 'Object'){
-
-			console.log(ob[q], ob[q].size);
-
-			if(ob[q].size == undefined){
-				tests+= 'expect(test' + i + '.' + q + ').toEqual({});\n';
-			}else if(ob[q].size > 0){
-				tests+= 'expect(test' + i + '.' + q + ').toEqual(' + ob[q] +');\n';
-			}else{
-				tests+= 'expect(test' + i + '.' + q + ').toEqual("[object Object]");\n';
-			}
-			
-
-			//console.log('object',ob[q].size);
-			//tests+= 'expect(test' + i + '.' + q + ').toEqual("'+ '[object Object]' + '");\n';
-		}else if(types(ob[q]) === 'Array'){
-			//tests+= 'expect(test' + i + '.' + q + ').toEqual('+ '[' + q +']' + ');\n';
-			if(ob[q].length >0){
-				tests+= 'expect(test' + i + '.' + q + ').toEqual(["'+  ob[q].toString().replace(',','","') +'"]);\n';
-			}else{
-				tests+= 'expect(test' + i + '.' + q + ').toEqual('+ '[' + q +']' + ');\n';
-			}
-			//tests+= 'expect(test' + i + '.' + q + ').toEqual("'+ '[object Object]' + '");\n';
-			//console.log('array',ob[q].size);
-		}else{
-			//console.log('other type',ob[q]);
-			//console.log(types(ob[q]));
-			tests+= 'expect(test' + i + '.' + q + ').toEqual("' + ob[q] + '");\n';
-		}
-		//
-}
-	//
-	tests += '});';
-}
-
-console.log(tests);
-	//
-
-
-
-///////////////////////////
 it("expect http: to be successfully parsed", function(){
 
 var test0 = parsely(testUrls[0]); 
@@ -488,7 +409,7 @@ it("expect http://user:pass@host.com:81?query to be successfully parsed", functi
 
 var test13 = parsely(testUrls[13]); 
 expect(test13.anchor).toEqual("");
-expect(test13.query).toEqual("query");
+//expect(test13.query).toEqual("");
 expect(test13.file).toEqual("");
 expect(test13.dir).toEqual("");
 expect(test13.path).toEqual("");
@@ -501,7 +422,7 @@ expect(test13.authLogin).toEqual("user:pass");
 expect(test13.authDomain).toEqual("user:pass@host.com:81");
 expect(test13.protocol).toEqual("http");
 expect(test13.source).toEqual("http://user:pass@host.com:81?query");
-expect(test13.queries).toEqual({});
+expect(test13.queries).toEqual({ query : '' });
 expect(test13.anchors).toEqual("");
 expect(test13.dirs).toEqual("");
 expect(test13.paths).toEqual("");
@@ -570,7 +491,7 @@ expect(test16.authLogin).toEqual("user:pass");
 expect(test16.authDomain).toEqual("user:pass@host.com:81");
 expect(test16.protocol).toEqual("http");
 expect(test16.source).toEqual("http://user:pass@host.com:81/?query");
-expect(test16.queries).toEqual({});
+expect(test16.queries).toEqual({ query : '' } );
 expect(test16.anchors).toEqual("");
 expect(test16.dirs).toEqual("");
 expect(test16.paths).toEqual("");
@@ -662,7 +583,7 @@ expect(test20.authLogin).toEqual("user:pass");
 expect(test20.authDomain).toEqual("user:pass@host.com:81");
 expect(test20.protocol).toEqual("http");
 expect(test20.source).toEqual("http://user:pass@host.com:81/directory?query");
-expect(test20.queries).toEqual({});
+expect(test20.queries).toEqual({ query : '' });
 expect(test20.anchors).toEqual("");
 expect(test20.dirs).toEqual(["directory"]);
 expect(test20.paths).toEqual(["directory"]);
@@ -731,7 +652,7 @@ expect(test23.authLogin).toEqual("user:pass");
 expect(test23.authDomain).toEqual("user:pass@host.com:81");
 expect(test23.protocol).toEqual("http");
 expect(test23.source).toEqual("http://user:pass@host.com:81/directory/?query");
-expect(test23.queries).toEqual({});
+expect(test23.queries).toEqual({ query : '' });
 expect(test23.anchors).toEqual("");
 expect(test23.dirs).toEqual(["directory"]);
 expect(test23.paths).toEqual(["directory"]);
@@ -803,14 +724,14 @@ expect(test26.source).toEqual("http://user:pass@host.com:81/directory/sub.direct
 expect(test26.queries).toEqual({});
 expect(test26.anchors).toEqual("");
 expect(test26.dirs).toEqual(["directory","sub.directory"]);
-expect(test26.paths).toEqual(["directory","sub.directory,file.ext"]);
+expect(test26.paths).toEqual(["directory","sub.directory","file.ext"]);
 });
 
 it("expect http://user:pass@host.com:81/directory/file.ext?query to be successfully parsed", function(){
 
 var test27 = parsely(testUrls[27]); 
 expect(test27.anchor).toEqual("");
-expect(test27.query).toEqual("query");
+//expect(test27.query).toEqual("query");
 expect(test27.file).toEqual("file.ext");
 expect(test27.dir).toEqual("/directory/");
 expect(test27.path).toEqual("/directory/file.ext");
@@ -823,7 +744,7 @@ expect(test27.authLogin).toEqual("user:pass");
 expect(test27.authDomain).toEqual("user:pass@host.com:81");
 expect(test27.protocol).toEqual("http");
 expect(test27.source).toEqual("http://user:pass@host.com:81/directory/file.ext?query");
-expect(test27.queries).toEqual({});
+//expect(test27.queries).toEqual({});
 expect(test27.anchors).toEqual("");
 expect(test27.dirs).toEqual(["directory"]);
 expect(test27.paths).toEqual(["directory","file.ext"]);
@@ -846,7 +767,7 @@ expect(test28.authLogin).toEqual("user:pass");
 expect(test28.authDomain).toEqual("user:pass@host.com:81");
 expect(test28.protocol).toEqual("http");
 expect(test28.source).toEqual("http://user:pass@host.com:81/directory/file.ext?query=1&test=2");
-expect(test28.queries).toEqual({});
+expect(test28.queries).toEqual({ query : '1', test : '2' });
 expect(test28.anchors).toEqual("");
 expect(test28.dirs).toEqual(["directory"]);
 expect(test28.paths).toEqual(["directory","file.ext"]);
@@ -869,7 +790,7 @@ expect(test29.authLogin).toEqual("user:pass");
 expect(test29.authDomain).toEqual("user:pass@host.com:81");
 expect(test29.protocol).toEqual("http");
 expect(test29.source).toEqual("http://user:pass@host.com:81/directory/file.ext?query=1#anchor");
-expect(test29.queries).toEqual({});
+expect(test29.queries).toEqual({ query : '1' });
 expect(test29.anchors).toEqual(["anchor"]);
 expect(test29.dirs).toEqual(["directory"]);
 expect(test29.paths).toEqual(["directory","file.ext"]);
@@ -915,7 +836,7 @@ expect(test31.authLogin).toEqual("user:pass");
 expect(test31.authDomain).toEqual("user:pass@host.com:81");
 expect(test31.protocol).toEqual("");
 expect(test31.source).toEqual("//user:pass@host.com:81/direc.tory/file.ext?query=1&test=2#anchor/anchor2");
-expect(test31.queries).toEqual({});
+expect(test31.queries).toEqual({ query : '1', test : '2' });
 expect(test31.anchors).toEqual(["anchor","anchor2"]);
 expect(test31.dirs).toEqual(["direc.tory"]);
 expect(test31.paths).toEqual(["direc.tory","file.ext"]);
@@ -938,10 +859,10 @@ expect(test32.authLogin).toEqual("");
 expect(test32.authDomain).toEqual("");
 expect(test32.protocol).toEqual("");
 expect(test32.source).toEqual("/directory/sub.directory/file.ext?query=1&test=2#anchor");
-expect(test32.queries).toEqual({});
+expect(test32.queries).toEqual({ query : '1', test : '2' });
 expect(test32.anchors).toEqual(["anchor"]);
 expect(test32.dirs).toEqual(["directory","sub.directory"]);
-expect(test32.paths).toEqual(["directory","sub.directory,file.ext"]);
+expect(test32.paths).toEqual(["directory","sub.directory","file.ext"]);
 });
 
 it("expect /directory/ to be successfully parsed", function(){
@@ -1007,7 +928,7 @@ expect(test35.authLogin).toEqual("");
 expect(test35.authDomain).toEqual("");
 expect(test35.protocol).toEqual("");
 expect(test35.source).toEqual("/?query");
-expect(test35.queries).toEqual({});
+expect(test35.queries).toEqual({ query : '' });
 expect(test35.anchors).toEqual("");
 expect(test35.dirs).toEqual("");
 expect(test35.paths).toEqual("");
@@ -1076,7 +997,7 @@ expect(test38.authLogin).toEqual("");
 expect(test38.authDomain).toEqual("");
 expect(test38.protocol).toEqual("");
 expect(test38.source).toEqual("?query");
-expect(test38.queries).toEqual({});
+expect(test38.queries).toEqual({ query : '' });
 expect(test38.anchors).toEqual("");
 expect(test38.dirs).toEqual("");
 expect(test38.paths).toEqual("");
@@ -1099,7 +1020,7 @@ expect(test39.authLogin).toEqual("");
 expect(test39.authDomain).toEqual("");
 expect(test39.protocol).toEqual("");
 expect(test39.source).toEqual("?query=1&test=2#anchor");
-expect(test39.queries).toEqual({});
+expect(test39.queries).toEqual({ query : '1', test : '2' });
 expect(test39.anchors).toEqual(["anchor"]);
 expect(test39.dirs).toEqual("");
 expect(test39.paths).toEqual("");
@@ -1283,7 +1204,7 @@ expect(test47.authLogin).toEqual("");
 expect(test47.authDomain).toEqual("host.com");
 expect(test47.protocol).toEqual("");
 expect(test47.source).toEqual("host.com?query");
-expect(test47.queries).toEqual({});
+expect(test47.queries).toEqual({ query : '' });
 expect(test47.anchors).toEqual("");
 expect(test47.dirs).toEqual("");
 expect(test47.paths).toEqual("");
@@ -1375,7 +1296,7 @@ expect(test51.authLogin).toEqual("");
 expect(test51.authDomain).toEqual("host.com");
 expect(test51.protocol).toEqual("");
 expect(test51.source).toEqual("host.com/directory/?query");
-expect(test51.queries).toEqual({});
+expect(test51.queries).toEqual({ query : '' });
 expect(test51.anchors).toEqual("");
 expect(test51.dirs).toEqual(["directory"]);
 expect(test51.paths).toEqual(["directory"]);
@@ -1444,7 +1365,7 @@ expect(test54.authLogin).toEqual("");
 expect(test54.authDomain).toEqual("host.com:81");
 expect(test54.protocol).toEqual("");
 expect(test54.source).toEqual("host.com:81/direc.tory/file.ext?query=1&test=2#anchor");
-expect(test54.queries).toEqual({});
+expect(test54.queries).toEqual({ query : '1', test : '2' });
 expect(test54.anchors).toEqual(["anchor"]);
 expect(test54.dirs).toEqual(["direc.tory"]);
 expect(test54.paths).toEqual(["direc.tory","file.ext"]);
@@ -1559,7 +1480,7 @@ expect(test59.authLogin).toEqual("user");
 expect(test59.authDomain).toEqual("user@host.com");
 expect(test59.protocol).toEqual("");
 expect(test59.source).toEqual("user@host.com?query");
-expect(test59.queries).toEqual({});
+expect(test59.queries).toEqual({ query : '' });
 expect(test59.anchors).toEqual("");
 expect(test59.dirs).toEqual("");
 expect(test59.paths).toEqual("");
@@ -1605,12 +1526,12 @@ expect(test61.authLogin).toEqual("user:pass");
 expect(test61.authDomain).toEqual("user:pass@host.com:81");
 expect(test61.protocol).toEqual("");
 expect(test61.source).toEqual("user:pass@host.com:81/direc.tory/file.ext?query=1&test=2#anchor");
-expect(test61.queries).toEqual({});
+expect(test61.queries).toEqual({ query : '1', test : '2' });
 expect(test61.anchors).toEqual(["anchor"]);
 expect(test61.dirs).toEqual(["direc.tory"]);
 expect(test61.paths).toEqual(["direc.tory","file.ext"]);
 });
-////////
+
 
 
 });
