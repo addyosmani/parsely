@@ -409,7 +409,7 @@ it("expect http://user:pass@host.com:81?query to be successfully parsed", functi
 
 var test13 = parsely(testUrls[13]); 
 expect(test13.anchor).toEqual("");
-//expect(test13.query).toEqual("");
+expect(test13.query).toEqual("query");
 expect(test13.file).toEqual("");
 expect(test13.dir).toEqual("");
 expect(test13.path).toEqual("");
