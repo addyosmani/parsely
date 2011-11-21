@@ -1,8 +1,10 @@
-Parsley is a JavaScript URL-parser for breaking down both simple and complex URL strings into their component elements. This is achieved primarily through regular expressions with iteration used for extending the break-down of query, path and hash portions of a URL.
+#Parsely.js
+
+Parsley is a JavaScript URL parser for breaking down both simple and complex URL strings into their component elements. This is achieved primarily through regular expressions with iteration used for extending the break-down of query, path and hash portions of a URL.
 
 usage:
 
-<pre>var parts = parsely( url ); //parsely('http://google.com');</pre>
+<pre>var parts = parsely( url ); //e.g. parsely('http://google.com');</pre>
 
 Supported URL patterns include:
 
@@ -71,5 +73,4 @@ Supported URL patterns include:
 "user:pass@host.com:81/direc.tory/file.ext?query=1&test=2#anchor"
 </pre>
 
-Due to the need for testing to factor in more than just the correct number of objects output, tests might take another few days to wrap up but they are coming. 
-	
+Parsely comes complete with a number of unit tests.
